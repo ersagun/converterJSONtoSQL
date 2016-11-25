@@ -22,28 +22,38 @@ $( document ).ready(function() {
             var actual_JSON = JSON.parse(response);
    // console.log(actual_JSON);
             $( "#yolo" ).append( "<p>use carte;</p><br />");
-            $( "#yolo" ).append( "<p>DELETE FROM MTG_block;</p><br />");
+            $( "#yolo" ).append( "<p>DELETE FROM MTG_booster;</p><br />");
 
             var arr = []; //tableau permettant d'éviter les doublons
 
             $.each(actual_JSON, function( nameCard, objectCard ) {
 
-
-
-                if (!(typeof objectCard.block === "undefined")) {
-                    if( arr.indexOf(objectCard.block)=== -1 ) { //si on est pas dans un doublon
-                        arr.push(objectCard.block);
-                        objectCard.block = objectCard.block.replace(/'/g, " ");
-                        $("#yolo").append("<p>INSERT INTO MTG_block(MTG_id_block,MTG_nom_block) VALUES ('"+cpt+"','" + objectCard.block + "');</p> <br />");
-                        cpt++
-                    }
+                if(cpt == 11) {
+                    console.log(objectCard.name);
                 }
 /**
                 console.log("INSERT INTO MTG_set(MTG_ID_SET,MTG_nom_set,MTG_code_set,MTG_gathererCode_set, MTG_oldCode_set, MTG_magicCardsInfoCode_set,MTG_releaseDate_set,MTG_onlineOnly_set) VALUES ("+cpt+",'"+objectCard.name+"'"+","+"'"+objectCard.code+"'"+","+"'"+objectCard.gathererCode+"'"+","+"'"+objectCard.oldCode+"'"+","+"'"+objectCard.magicCardsInfoCode+"'"+","+"'"+objectCard.releaseDate+"'"+", "+objectCard.onlineOnly+");");
    **/ ;
-            //   $.each(objectCard["cards"], function( index, value) {
-                  //  console.log(value);
-             //   });
+                if (!(typeof objectCard.booster === "undefined")) {
+
+                   var booster = "";
+
+                   $.each(objectCard["booster"], function( index, value) {
+                           booster += value + ",";
+                   });
+
+                   if (booster.length > 1) {
+                       if( arr.indexOf(booster)=== -1 ) { //si on est pas dans un doublon
+                           arr.push(booster);
+
+                           booster = booster.replace(/'/g, " ");
+                           booster = booster.substring(0, booster.length - 1);
+
+                           $("#yolo").append("<p>INSERT INTO MTG_booster(MTG_composition_booster) VALUES ('" + booster + "');</p> <br />");
+                           cpt++;
+                       }
+                   }
+                }
             });
 
         });

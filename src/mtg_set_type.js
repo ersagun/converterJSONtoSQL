@@ -22,7 +22,7 @@ $( document ).ready(function() {
             var actual_JSON = JSON.parse(response);
    // console.log(actual_JSON);
             $( "#yolo" ).append( "<p>use carte;</p><br />");
-            $( "#yolo" ).append( "<p>DELETE FROM MTG_block;</p><br />");
+            $( "#yolo" ).append( "<p>DELETE FROM MTG_set_type;</p><br />");
 
             var arr = []; //tableau permettant d'éviter les doublons
 
@@ -30,11 +30,11 @@ $( document ).ready(function() {
 
 
 
-                if (!(typeof objectCard.block === "undefined")) {
-                    if( arr.indexOf(objectCard.block)=== -1 ) { //si on est pas dans un doublon
-                        arr.push(objectCard.block);
-                        objectCard.block = objectCard.block.replace(/'/g, " ");
-                        $("#yolo").append("<p>INSERT INTO MTG_block(MTG_id_block,MTG_nom_block) VALUES ('"+cpt+"','" + objectCard.block + "');</p> <br />");
+                if (!(typeof objectCard.type === "undefined")) {
+                    if( arr.indexOf(objectCard.type)=== -1 ) { //si on est pas dans un doublon
+                        arr.push(objectCard.type);
+                        objectCard.type = objectCard.type.replace(/'/g, " ");
+                        $("#yolo").append("<p>INSERT INTO MTG_set_type(MTG_id_set_type,MTG_nom_set_type) VALUES ('"+cpt+"','" + objectCard.type + "');</p> <br />");
                         cpt++
                     }
                 }
